@@ -1,18 +1,26 @@
 FROM python:3.6.4
 
-# 设置工作目录
+# install environment dependencies
+RUN apt-get update -yqq \
+    && apt-get install -yqq --no-install-recommends netcat \
+    && apt-get -q clean
+
+# set working directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-# 添加应用
-COPY . /usr/src/app
-
-# pip.conf
+# copy pip.conf
 RUN mkdir -p /root/.pip
 COPY ./pip.conf /root/.pip/
 
-# 安装依赖
+# add requirements
+COPY ./requirements.txt /usr/src/app/requirements.txt
+
+# install requirements
 RUN pip install -r requirements.txt
 
-# 运行服务
-CMD python manage.py run -h 0.0.0.0
+# add app
+COPY . /usr/src/app
+
+# run server
+CMD ["./entrypoint.sh"]
