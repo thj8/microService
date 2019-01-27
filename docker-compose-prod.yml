@@ -11,7 +11,7 @@ services:
       - 5000
     environment:
       - APP_SETTINGS=project.config.ProductionConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
     depends_on:
       - users-db
@@ -23,15 +23,17 @@ services:
     build:
       context: ./services/users/project/db
       dockerfile: Dockerfile
-    ports:
-      - 5435:5432
+    expose:
+      - 5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
   nginx:
     container_name: nginx
-    build: ./services/nginx
+    build: 
+      context: ./services/nginx
+      dockerfile: Dockerfile-prod
     restart: always
     ports:
       - 80:80
