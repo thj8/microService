@@ -15,6 +15,7 @@ class TestUserService(BaseTestCase):
         self.assertIn('pong!', data['message'])
         self.assertIn('success', data['status'])
 
+    """Ensure a new user cna be added to the database."""
     def test_add_user(self):
         with self.client:
             response = self.client.post(
