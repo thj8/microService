@@ -16,6 +16,7 @@ def ping_pong():
         'message': 'pong!'
     })
 
+
 @users_blueprint.route('/users', methods=['POST'])
 def add_user():
     post_data = request.get_json()
@@ -29,7 +30,7 @@ def add_user():
 
     username = post_data.get('username')
     email = post_data.get('email')
-    
+
     try:
         user = User.query.filter_by(email=email).first()
         if not user:
@@ -44,18 +45,19 @@ def add_user():
             return jsonify(response_object), 400
     except exc.IntegrityError as e:
         return jsonify(response_object), 400
-    
+
     return jsonify(response_object), 400
+
 
 @users_blueprint.route('/users/<user_id>', methods=['GET'])
 def get_single_user(user_id):
     """Get single user detail"""
-    
+
     response_object = {
         'status': 'fail',
         'message': 'User does not exist'
     }
-    
+
     try:
         user = User.query.filter_by(id=int(user_id)).first()
         if not user:
@@ -70,7 +72,7 @@ def get_single_user(user_id):
                 'active': user.active
             }
         }
-        
+
         return jsonify(response_object), 200
     except ValueError:
         return jsonify(response_object), 404
@@ -88,6 +90,7 @@ def get_all_users():
 
     return jsonify(response_object), 200
 
+
 @users_blueprint.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -95,6 +98,6 @@ def index():
         email = request.form['email']
         db.session.add(User(username=username, email=email))
         db.session.commit()
-    
+
     users = User.query.all()
     return render_template('index.html', users=users)
