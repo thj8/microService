@@ -1,7 +1,7 @@
 import React, { Component }from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import UserList from './components/UserList';
+import UsersList from './components/UsersList';
 
 
 class App extends Component {
@@ -30,7 +30,7 @@ class App extends Component {
             <br/>
             <h1>All Users</h1>
             <hr/><br/>
-            <UserList users={this.state.users}/>
+            <UsersList users={this.state.users}/>
           </div>
         </div>
       </div>
