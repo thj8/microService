@@ -17,6 +17,7 @@ class DevelopmentConfig(Baseconfig):
     DEBUG_TB_ENABLED = True
     BCRYPT_LOG_ROUNDS = 4
 
+
 class TestingConfig(Baseconfig):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_TEST_URL')
